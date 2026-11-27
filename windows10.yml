@@ -1,0 +1,25 @@
+services:
+  windows:
+    image: dockurr/windows
+    container_name: windows
+    environment:
+      VERSION: "10"
+      RAM_SIZE: "6G"
+      CPU_CORES: "2"
+      DISK_DISCARD: "unmap"
+      USERNAME: ${WINDOWS_USERNAME:-Mario}
+      PASSWORD: ${WINDOWS_PASSWORD}
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8006:8006"
+    volumes:
+      - windows-data:/mnt/windows-data
+    devices:
+      - "/dev/kvm:/dev/kvm"
+      - "/dev/net/tun:/dev/net/tun"
+    stop_grace_period: 2m
+    restart: unless-stopped
+
+volumes:
+  windows-data:
